@@ -3,19 +3,21 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"mcp-client/transport"
+	"github.com/jkeresman01/mcp-client/transport"
 
 	"github.com/spf13/cobra"
 )
 
 var (
-	promptName  string
-	promptInput string
+	promptName      string
+	promptInput     string
+	promptArguments string
 )
 
 var listPromptsCmd = &cobra.Command{
 	Use:   "list-prompts",
 	Short: "List all available prompts",
+	Long:  `Retrieve and display all prompts available on the MCP server.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		t, err := getTransport()
 		if err != nil {
@@ -41,9 +43,10 @@ var listPromptsCmd = &cobra.Command{
 	},
 }
 
-var runPromptCmd = &cobra.Command{
-	Use:   "run-prompt",
-	Short: "Run a prompt with input",
+var getPromptCmd = &cobra.Command{
+	Use:   "get-prompt",
+	Short: "Get details of a specific prompt",
+	Long:  `Retrieve details of a specific prompt from the MCP server using its name.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if promptName == "" {
 			return fmt.Errorf("--name is required")
@@ -55,19 +58,23 @@ var runPromptCmd = &cobra.Command{
 		}
 		defer t.Close()
 
-		var parsedInput map[string]interface{}
-		if err := json.Unmarshal([]byte(promptInput), &parsedInput); err != nil {
-			return fmt.Errorf("invalid --input JSON: %v", err)
+		params := map[string]interface{}{
+			"name": promptName,
+		}
+
+		if promptArguments != "" && promptArguments != "{}" {
+			var parsedArgs map[string]interface{}
+			if err := json.Unmarshal([]byte(promptArguments), &parsedArgs); err != nil {
+				return fmt.Errorf("invalid --arguments JSON: %v", err)
+			}
+			params["arguments"] = parsedArgs
 		}
 
 		req := transport.RPCRequest{
 			JSONRPC: "2.0",
 			ID:      21,
-			Method:  "prompts/run",
-			Params: map[string]interface{}{
-				"name":  promptName,
-				"input": parsedInput,
-			},
+			Method:  "prompts/get",
+			Params:  params,
 		}
 
 		resp, err := t.Send(req)
@@ -82,10 +89,10 @@ var runPromptCmd = &cobra.Command{
 }
 
 func init() {
-	runPromptCmd.Flags().StringVar(&promptName, "name", "", "Name of the prompt to run (required)")
-	runPromptCmd.Flags().StringVar(&promptInput, "input", "{}", "JSON-encoded input to pass to the prompt")
-	runPromptCmd.MarkFlagRequired("name")
+	getPromptCmd.Flags().StringVar(&promptName, "name", "", "Name of the prompt to get (required)")
+	getPromptCmd.Flags().StringVar(&promptArguments, "arguments", "{}", "JSON-encoded arguments to pass to the prompt")
+	getPromptCmd.MarkFlagRequired("name")
 
 	rootCmd.AddCommand(listPromptsCmd)
-	rootCmd.AddCommand(runPromptCmd)
+	rootCmd.AddCommand(getPromptCmd)
 }

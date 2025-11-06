@@ -16,6 +16,7 @@ var (
 var listToolsCmd = &cobra.Command{
 	Use:   "list-tools",
 	Short: "List all registered MCP tools",
+	Long:  `Retrieve and display all tools available on the MCP server.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		t, err := getTransport()
 		if err != nil {
@@ -44,6 +45,8 @@ var listToolsCmd = &cobra.Command{
 var callToolCmd = &cobra.Command{
 	Use:   "call-tool",
 	Short: "Call an MCP tool by name with JSON args",
+	Long: `Execute a specific tool on the MCP server with provided arguments.
+Arguments should be provided as a JSON string.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		t, err := getTransport()
 		if err != nil {

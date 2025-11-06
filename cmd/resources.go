@@ -13,6 +13,7 @@ var resourceID string
 var listResourcesCmd = &cobra.Command{
 	Use:   "list-resources",
 	Short: "List all available MCP resources",
+	Long:  `Retrieve and display all resources available on the MCP server.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		t, err := getTransport()
 		if err != nil {
@@ -41,6 +42,7 @@ var listResourcesCmd = &cobra.Command{
 var getResourceCmd = &cobra.Command{
 	Use:   "get-resource",
 	Short: "Get content of a specific MCP resource by ID",
+	Long:  `Retrieve the content of a specific resource from the MCP server using its ID.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if resourceID == "" {
 			return fmt.Errorf("--id is required")
@@ -55,9 +57,9 @@ var getResourceCmd = &cobra.Command{
 		req := transport.RPCRequest{
 			JSONRPC: "2.0",
 			ID:      11,
-			Method:  "resources/get",
+			Method:  "resources/read",
 			Params: map[string]interface{}{
-				"id": resourceID,
+				"uri": resourceID,
 			},
 		}
 
@@ -73,7 +75,7 @@ var getResourceCmd = &cobra.Command{
 }
 
 func init() {
-	getResourceCmd.Flags().StringVar(&resourceID, "id", "", "ID of the resource to fetch")
+	getResourceCmd.Flags().StringVar(&resourceID, "id", "", "ID/URI of the resource to fetch")
 	getResourceCmd.MarkFlagRequired("id")
 
 	rootCmd.AddCommand(listResourcesCmd)

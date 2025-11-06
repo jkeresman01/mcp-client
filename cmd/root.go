@@ -15,10 +15,17 @@ var (
 var rootCmd = &cobra.Command{
 	Use:   "mcp-client",
 	Short: "A general-purpose MCP CLI client",
+	Long: `MCP Client - A command-line interface for testing Model Context Protocol servers.
+Supports stdio, SSE, and StreamableHTTP transports.`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("Transport: %s\n", transportType)
-		fmt.Printf("URL: %s\n", serverURL)
-		fmt.Printf("Command: %s %v\n", commandPath, commandArgs)
+		if cmd.Name() != "mcp-client" {
+			fmt.Printf("Transport: %s\n", transportType)
+			if transportType != "stdio" {
+				fmt.Printf("URL: %s\n", serverURL)
+			} else {
+				fmt.Printf("Command: %s %v\n", commandPath, commandArgs)
+			}
+		}
 	},
 }
 

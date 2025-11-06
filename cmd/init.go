@@ -9,7 +9,9 @@ import (
 
 var initCmd = &cobra.Command{
 	Use:   "init",
-	Short: "Send initialize request",
+	Short: "Send initialize request to MCP server",
+	Long: `Initialize the connection with an MCP server.
+This sends the initialize request with protocol version and client info.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		t, err := getTransport()
 		if err != nil {
@@ -27,6 +29,7 @@ var initCmd = &cobra.Command{
 					"name":    "mcp-client",
 					"version": "0.1",
 				},
+				"capabilities": map[string]interface{}{},
 			},
 		}
 		resp, err := t.Send(req)
