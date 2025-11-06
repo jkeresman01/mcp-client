@@ -14,16 +14,16 @@ type MCPError struct {
 
 func (e *MCPError) Error() string {
 	var sb strings.Builder
-	
+
 	sb.WriteString(fmt.Sprintf("Error during %s: %v\n", e.Operation, e.Err))
-	
+
 	if len(e.Hints) > 0 {
 		sb.WriteString("\nTroubleshooting hints:\n")
 		for i, hint := range e.Hints {
 			sb.WriteString(fmt.Sprintf("   %d. %s\n", i+1, hint))
 		}
 	}
-	
+
 	return sb.String()
 }
 

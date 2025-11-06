@@ -9,9 +9,9 @@ import (
 )
 
 var (
-	configFile   string
-	serverName   string
-	setDefault   bool
+	configFile string
+	serverName string
+	setDefault bool
 )
 
 var configCmd = &cobra.Command{
@@ -48,7 +48,7 @@ var configListCmd = &cobra.Command{
 
 			fmt.Printf("%s%s:\n", marker, name)
 			fmt.Printf("    Transport: %s\n", server.Transport)
-			
+
 			if server.URL != "" {
 				fmt.Printf("    URL:       %s\n", server.URL)
 			}

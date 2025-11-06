@@ -43,10 +43,10 @@ func runInteractive(cmd *cobra.Command, args []string) error {
 	printWelcome()
 
 	scanner := bufio.NewScanner(os.Stdin)
-	
+
 	for {
 		fmt.Print("mcp> ")
-		
+
 		if !scanner.Scan() {
 			break
 		}

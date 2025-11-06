@@ -32,7 +32,7 @@ var listToolsCmd = &cobra.Command{
 		}
 
 		if debugMode {
-			fmt.Println("🔧 Debug: Sending request:", req.Method)
+			fmt.Println("Debug: Sending request:", req.Method)
 		}
 
 		resp, err := t.Send(req)
