@@ -1,6 +1,20 @@
-# mcp-client
+<div align="center">
 
-Simple MCP Client supporting SSE, stdio and StreamableHTTP with **interactive mode**, **configuration files**, and **enhanced error messages**.
+  <h1>mcp-client</h1>
+  <h6> The easiest way to test you MCP servers from CLI, REPL mode included </h4>
+
+
+
+[![Go](https://img.shields.io/badge/Go-00ADD8.svg?style=for-the-badge&logo=go&logoColor=white)](https://go.dev/)
+![Status](https://img.shields.io/badge/status-work--in--progress-yellow?style=for-the-badge)
+
+
+</div>
+
+## About ##
+
+`mcp-client` is CLI based MCP Client supporting SSE, stdio and StreamableHTTP with **interactive REPL mode**.
+Lightweight && fouced on quick local checks and REPL mode.
 
 ## How MCP works
 
