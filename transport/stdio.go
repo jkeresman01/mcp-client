@@ -37,7 +37,7 @@ func (t *stdioTransport) start() error {
 	}
 
 	if err := t.cmd.Start(); err != nil {
-		return fmt.Errorf("failed to start command: %v", err)
+		return WrapError("stdio start", err)
 	}
 
 	t.scanner = bufio.NewScanner(t.stdout)

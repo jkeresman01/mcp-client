@@ -24,7 +24,7 @@ func (t *streamableHttpTransport) Send(req RPCRequest) (*RPCResponse, error) {
 
 	resp, err := http.Post(t.url, "application/json", bytes.NewReader(body))
 	if err != nil {
-		return nil, err
+		return nil, NewConnectionError("streamable-http", t.url, err)
 	}
 	defer resp.Body.Close()
 

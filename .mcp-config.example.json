@@ -1,0 +1,22 @@
+{
+  "default_server": "local",
+  "servers": {
+    "local": {
+      "url": "http://localhost:8765",
+      "transport": "streamable-http"
+    },
+    "dev": {
+      "url": "http://localhost:3000",
+      "transport": "sse"
+    },
+    "filesystem": {
+      "transport": "stdio",
+      "command": "./filesystem-server",
+      "args": ["--root", "/tmp"]
+    },
+    "production": {
+      "url": "https://api.example.com/mcp",
+      "transport": "streamable-http"
+    }
+  }
+}

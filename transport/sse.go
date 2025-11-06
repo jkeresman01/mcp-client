@@ -42,7 +42,7 @@ func (t *sseTransport) Send(req RPCRequest) (*RPCResponse, error) {
 
 	resp, err := t.client.Do(httpReq)
 	if err != nil {
-		return nil, err
+		return nil, NewConnectionError("sse", t.url, err)
 	}
 	defer resp.Body.Close()
 
@@ -103,7 +103,7 @@ func (t *sseTransport) Listen(handler func(RPCResponse)) error {
 
 	resp, err := t.client.Do(req)
 	if err != nil {
-		return err
+		return NewConnectionError("sse", t.url, err)
 	}
 	defer resp.Body.Close()
 
